@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class Path {
@@ -5,7 +6,11 @@ public class Path {
     static Scanner input = new Scanner(System.in);
 
     public static void jeda(int milidetik) {
-        try { Thread.sleep(milidetik); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+        try {
+            Thread.sleep(milidetik);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     // Fungsi Battle kini menerima Objek, bukan variabel lepas
@@ -16,7 +21,7 @@ public class Path {
             System.out.println(String.format("%-20s HP: %-10d MP: %-10d", player.getNama(), player.getHp(), player.getMana()));
             System.out.println(String.format("%-20s HP: %-10d", monster.getNama(), monster.getHp()));
             System.out.println("========================================================");
-            
+
             // 1. Eksekusi Algoritma Efek Status Monster (Pre-Turn)
             int lukaBakar = monster.prosesEfekStatus();
             if (lukaBakar > 0) {
@@ -67,10 +72,14 @@ public class Path {
             }
 
             // Kurangi HP Monster
-            if (dmgKeMonster > 0) monster.terimaDamage(dmgKeMonster);
+            if (dmgKeMonster > 0) {
+                monster.terimaDamage(dmgKeMonster);
+            }
             jeda(1200);
 
-            if (!monster.isAlive()) break; 
+            if (!monster.isAlive()) {
+                break;
+            }
 
             // Giliran Monster
             int dmgKePlayer = monster.serangBalik();
@@ -79,7 +88,7 @@ public class Path {
             jeda(1200);
         }
         player.resetCombo(); // Reset combo setelah battle selesai
-        return player.isAlive(); 
+        return player.isAlive();
     }
 
     public static void main(String[] args) {
@@ -100,11 +109,11 @@ public class Path {
             System.out.println("Hawa dingin menusuk tulang. Kau terbangun di atas tanah lembab, dikelilingi pohon-pohon mati.");
             jeda(2500);
             System.out.print("Kau berusaha mengingat namamu... 'Namaku adalah... ");
-            
+
             if (player.getNama() == null) {
                 player.setNama(input.next());
             } else {
-                input.next(); 
+                input.next();
             }
 
             System.out.println("\n--------------------------------------------------------");
@@ -155,10 +164,11 @@ public class Path {
             jeda(2500);
             System.out.println("Naga: 'Tidak ada yang boleh melewati gerbang ini tanpa menjawab pertanyaanku, manusia.'");
             System.out.println("'Jawab! Apa yang lebih berat dari gunung namun bisa dibawa oleh angin?'");
-            System.out.println("1. Awan | 2. Rahasia | 3. Dosa | 4. Kebohongan");
+            System.out.println("1. Awan | 2. Rahasia | 3. Dosa | 4. Tanggung Jawab");
             System.out.print(">> ");
 
-            if (input.nextInt() == 3) {
+            int jawaban = input.nextInt();
+            if (jawaban == 3) {
                 System.out.println("\nNaga itu tertawa parau, sebuah suara yang menggetarkan isi dadamu.");
                 System.out.println("Naga: 'Jawaban yang bagus... Namun aku ingin melihat keberanianmu sebelum kau bebas!'");
                 jeda(2000);
@@ -176,6 +186,14 @@ public class Path {
                     System.out.println("\nApi abadi melahap jiwamu. Hutan ini kembali menarikmu ke dalam pelukannya.");
                     jeda(3000);
                 }
+                } else if (jawaban == 4) {
+                System.out.println("\nNaga itu mengangguk bijak, matanya yang merah memudar menjadi emas.");
+                System.out.println("Naga: 'Jawaban yang bijak... Kau telah memahami beban terbesar. Pergilah, manusia.'");
+                jeda(2000);
+                System.out.println("\n[GOOD ENDING]");
+                System.out.println("Gerbang hutan terbuka lebar. Sinar mentari menyambutmu di luar sana.");
+                System.out.println("Kau telah lolos dari Hutan Iblis. Kau bebas, " + player.getNama() + ".");
+                gameRunning = false;
             } else {
                 System.out.println("\nNaga: 'Salah! Hutan ini adalah penjara abadimu!'");
                 System.out.println("Ia membuka mulutnya dan menyemburkan api yang melahap segalanya...");
